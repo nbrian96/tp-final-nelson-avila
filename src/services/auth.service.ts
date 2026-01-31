@@ -35,7 +35,12 @@ export class AuthService {
         if (user && (await bcrypt.compare(password as string, user.password))) {
             return {
                 success: true,
-                token: generateToken(user.id)
+                token: generateToken(user.id),
+                data: {
+                    id: user.id,
+                    email: user.email,
+                    username: user.username
+                }
             };
         } else {
             throw new Error('Invalid credentials');

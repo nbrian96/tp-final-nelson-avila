@@ -25,13 +25,13 @@ export const protect = async (req: Request, res: Response, next: NextFunction) =
             req.user = { id: decoded.id };
 
             next();
+            return;
         } catch (error) {
             console.error(error);
             res.status(401).json({ message: 'Unauthorized, token failed' });
+            return;
         }
     }
 
-    if (!token) {
-        res.status(401).json({ message: 'Unauthorized, no token' });
-    }
+    res.status(401).json({ message: 'Unauthorized, no token' });
 };

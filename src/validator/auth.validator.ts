@@ -4,25 +4,25 @@ import { validateResult } from './validate';
 export const registerValidator = [
     body('username')
         .notEmpty()
-        .withMessage('El nombre de usuario es requerido')
+        .withMessage('Username is required')
         .isString(),
     body('email')
         .isEmail()
-        .withMessage('Debe proporcionar un email válido'),
+        .withMessage('Must provide a valid email'),
     body('password')
         .notEmpty()
-        .withMessage('La contraseña es requerida')
+        .withMessage('Password is required')
         .isLength({ min: 6, max: 12 })
-        .withMessage('La contraseña debe tener entre 6 y 12 caracteres'),
+        .withMessage('Password must be between 6 and 12 characters'),
     validateResult
 ];
 
 export const loginValidator = [
     body('email')
         .isEmail()
-        .withMessage('Debe proporcionar un email válido'),
+        .withMessage('Must provide a valid email'),
     body('password')
         .notEmpty()
-        .withMessage('La contraseña es requerida'),
+        .withMessage('Password is required'),
     validateResult
 ];

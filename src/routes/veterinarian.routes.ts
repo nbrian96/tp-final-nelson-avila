@@ -11,10 +11,8 @@ import { createVeterinarianValidator, updateVeterinarianValidator } from '../val
 
 const router = Router();
 
-// Public Routes
 router.get('/', getSpecialists);
 
-// Private Routes
 router.post('/', protect, createVeterinarianValidator, createVeterinarian);
 router.get('/:id', protect, getVeterinarianById);
 router.put('/:id', protect, updateVeterinarianValidator, updateVeterinarian);

@@ -9,7 +9,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         res.status(result.success ? 200 : 400).json(result);
     } catch (error) {
         const message = (error as Error).message;
-        const status = message === 'El usuario ya existe' ? 400 : 500;
+        const status = message === 'User already exists' ? 400 : 500;
         res.status(status).json({ message });
     }
 };
@@ -20,7 +20,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         res.status(result.success ? 200 : 401).json(result);
     } catch (error) {
         const message = (error as Error).message;
-        const status = message === 'Credenciales inválidas' ? 401 : 500;
+        const status = message === 'Invalid credentials' ? 401 : 500;
         res.status(status).json({ message });
     }
 };

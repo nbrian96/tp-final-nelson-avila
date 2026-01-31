@@ -9,7 +9,7 @@ export class AuthService {
 
         const userExists = await User.findOne({ email });
         if (userExists) {
-            throw new Error('El usuario ya existe');
+            throw new Error('User already exists');
         }
 
         const salt = await bcrypt.genSalt(10);
@@ -23,7 +23,7 @@ export class AuthService {
 
         return {
             success: user?.id ? true : false,
-            message: user?.id ? 'Usuario creado exitosamente' : 'Usuario no creado'
+            message: user?.id ? 'User created successfully' : 'User not created'
         };
     }
 
@@ -38,7 +38,7 @@ export class AuthService {
                 token: generateToken(user.id)
             };
         } else {
-            throw new Error('Credenciales inválidas');
+            throw new Error('Invalid credentials');
         }
     }
 }

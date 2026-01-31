@@ -1,30 +1,35 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
-export interface IUser extends Document {
-    email: string;
-    username: string;
-    password: string;
+export interface IVeterinarian extends Document {
+    name: string;
+    lastName: string;
+    medicalLicense: string;
+    specialty: string;
     deleted: boolean;
     deletedAt: Date;
 }
 
-const UserSchema: Schema = new Schema({
-    email: {
+const VeterinarianSchema: Schema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    medicalLicense: {
         type: String,
         required: true,
         unique: true,
         trim: true,
-        lowercase: true
     },
-    username: {
+    specialty: {
         type: String,
         required: true,
-        unique: true,
         trim: true,
-    },
-    password: {
-        type: String,
-        required: true
     },
     deleted: {
         type: Boolean,
@@ -38,4 +43,4 @@ const UserSchema: Schema = new Schema({
     timestamps: true
 });
 
-export default mongoose.model<IUser>('User', UserSchema);
+export default mongoose.model<IVeterinarian>('Veterinarian', VeterinarianSchema);

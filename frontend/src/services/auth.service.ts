@@ -1,11 +1,11 @@
-import { BACKEND_API_BASE_URL } from '../constants';
+import { API_BASE_URL } from '../constants';
 import type {
     AuthResponse,
     LoginCredentials,
     RegisterCredentials
 } from '../interfaces/auth.interface';
 
-const API_URL = `${BACKEND_API_BASE_URL}auth`;
+const API_URL = `${API_BASE_URL}/auth`;
 
 export const authService = {
     async login(credentials: LoginCredentials): Promise<AuthResponse> {

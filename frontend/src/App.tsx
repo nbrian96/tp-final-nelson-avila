@@ -3,11 +3,10 @@ import { Box } from '@mui/material';
 
 import Home from '@pages/Home';
 import NotFound from '@pages/NotFound';
-import PokemonDetails from '@pages/PokemonDetails';
-import PokemonList from '@pages/PokemonList';
-import FavoritePokemonList from '@pages/FavoritePokemonList';
 import Login from '@pages/Login';
 import Register from '@pages/Register';
+import VeterinarianList from '@pages/VeterinarianList';
+import VeterinarianForm from '@pages/VeterinarianForm';
 
 import Footer from '@components/Footer';
 import Navbar from '@components/Navbar';
@@ -34,26 +33,26 @@ function App() {
             }
           />
           <Route
-            path="/pokedex"
+            path="/veterinarians"
             element={
               <ProtectedRoute>
-                <PokemonList />
+                <VeterinarianList />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/pokemon/:id"
+            path="/veterinarians/new"
             element={
               <ProtectedRoute>
-                <PokemonDetails />
+                <VeterinarianForm />
               </ProtectedRoute>
             }
           />
           <Route
-            path="/favorites"
+            path="/veterinarians/edit/:id"
             element={
               <ProtectedRoute>
-                <FavoritePokemonList />
+                <VeterinarianForm />
               </ProtectedRoute>
             }
           />

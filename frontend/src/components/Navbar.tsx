@@ -19,8 +19,6 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
-import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonIcon from '@mui/icons-material/Person';
 
@@ -64,8 +62,7 @@ const Navbar: React.FC = () => {
 
   const menuItems = [
     { text: 'Inicio', path: '/', icon: <HomeIcon /> },
-    { text: 'Pokédex', path: '/pokedex/', icon: <SportsEsportsIcon /> },
-    { text: 'Favoritos', path: '/favorites/', icon: <FavoriteIcon /> }
+    { text: 'Veterinarios', path: '/veterinarians', icon: <PersonIcon /> }
   ];
 
   const drawer = (
@@ -105,37 +102,37 @@ const Navbar: React.FC = () => {
             {APP_NAME}
           </Typography>
 
-          {isMobile ? (
-            <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              edge="start"
-              onClick={handleDrawerToggle}
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : (
+          {isAuthenticated && user && (
             <>
-              <Box sx={{ display: 'flex', gap: 2 }}>
-                {menuItems.map((item) => (
-                  <Button
-                    key={item.text}
-                    color="inherit"
-                    onClick={() => handleNavigation(item.path)}
-                    startIcon={item.icon}
-                    sx={{
-                      fontWeight: location.pathname === item.path ? 'bold' : 'normal',
-                      borderBottom: location.pathname === item.path ? '2px solid' : 'none',
-                      borderBottomColor: 'white'
-                    }}
-                  >
-                    {item.text}
-                  </Button>
-                ))}
-              </Box>
-
-              {isAuthenticated && user && (
+              {isMobile ? (
+                <IconButton
+                  color="inherit"
+                  aria-label="open drawer"
+                  edge="start"
+                  onClick={handleDrawerToggle}
+                >
+                  <MenuIcon />
+                </IconButton>
+              ) : (
                 <>
+                  <Box sx={{ display: 'flex', gap: 2 }}>
+                    {menuItems.map((item) => (
+                      <Button
+                        key={item.text}
+                        color="inherit"
+                        onClick={() => handleNavigation(item.path)}
+                        startIcon={item.icon}
+                        sx={{
+                          fontWeight: location.pathname === item.path ? 'bold' : 'normal',
+                          borderBottom: location.pathname === item.path ? '2px solid' : 'none',
+                          borderBottomColor: 'white'
+                        }}
+                      >
+                        {item.text}
+                      </Button>
+                    ))}
+                  </Box>
+
                   <Divider orientation="vertical" flexItem sx={{ mx: 2, bgcolor: 'white' }} />
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <Typography variant="body2" sx={{ display: { xs: 'none', lg: 'block' } }}>

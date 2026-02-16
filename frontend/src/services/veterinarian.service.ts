@@ -14,9 +14,7 @@ const getAuthHeaders = () => {
 export const veterinarianService = {
     async getAll(): Promise<Veterinarian[]> {
         const response = await fetch(API_URL, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
+            headers: getAuthHeaders(),
         });
 
         if (!response.ok) {
@@ -48,8 +46,7 @@ export const veterinarianService = {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al crear veterinario');
+            throw new Error('Error al crear veterinario');
         }
     },
 
@@ -61,8 +58,7 @@ export const veterinarianService = {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al actualizar veterinario');
+            throw new Error('Error al actualizar veterinario');
         }
     },
 
@@ -73,8 +69,7 @@ export const veterinarianService = {
         });
 
         if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.message || 'Error al eliminar veterinario');
+            throw new Error('Error al eliminar veterinario');
         }
     }
 };

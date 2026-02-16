@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import connectDB from './config/database';
+import morgan from 'morgan';
 import { validateJWTConfig } from './utils/token.util';
 
 import veterinarianRoutes from './routes/veterinarian.routes';
@@ -27,6 +28,7 @@ const BASE_URL = process.env.BASE_URL || `http://localhost`;
 connectDB();
 
 app.use(cors());
+app.use(morgan('dev'));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

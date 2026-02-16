@@ -5,6 +5,7 @@ export interface IMedicalHistory extends Document {
     veterinarianId: mongoose.Types.ObjectId;
     registrationDate: Date;
     description: string;
+    userId: mongoose.Types.ObjectId;
     deleted: boolean;
     deletedAt: Date | null;
 }
@@ -26,6 +27,11 @@ const MedicalHistorySchema: Schema = new Schema({
     },
     description: {
         type: String,
+        required: true
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     deleted: {

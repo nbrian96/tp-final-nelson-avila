@@ -65,7 +65,7 @@ const VeterinarianList = () => {
     const handleDeleteConfirm = async () => {
         if (selectedVet) {
             try {
-                await veterinarianService.delete(selectedVet._id);
+                await veterinarianService.delete(selectedVet.id);
                 setDeleteDialogOpen(false);
                 setSelectedVet(null);
                 loadVeterinarians();
@@ -155,7 +155,7 @@ const VeterinarianList = () => {
                                 </TableHead>
                                 <TableBody>
                                     {veterinarians.map((vet) => (
-                                        <TableRow key={vet._id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                        <TableRow key={vet.id} hover sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             <TableCell>
                                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                                                     <Avatar sx={{ bgcolor: 'secondary.light', color: 'secondary.main' }}>
@@ -179,7 +179,7 @@ const VeterinarianList = () => {
                                                 <Tooltip title="Editar perfil">
                                                     <IconButton
                                                         color="primary"
-                                                        onClick={() => navigate(`/veterinarians/edit/${vet._id}`)}
+                                                        onClick={() => navigate(`/veterinarians/edit/${vet.id}`)}
                                                         sx={{ mr: 1, bgcolor: 'primary.light', '&:hover': { bgcolor: 'primary.main', color: 'white' }, transition: 'all 0.2s' }}
                                                     >
                                                         <EditIcon fontSize="small" />

@@ -6,6 +6,7 @@ export interface IOwner extends Document {
     dni: number;
     phone: string;
     address: string | null;
+    userId: mongoose.Types.ObjectId;
     deleted: boolean;
     deletedAt: Date | null;
 }
@@ -40,6 +41,11 @@ const OwnerSchema: Schema = new Schema({
         default: null,
         maxlength: 100,
         trim: true,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     deleted: {
         type: Boolean,

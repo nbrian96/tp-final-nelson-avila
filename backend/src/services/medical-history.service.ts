@@ -1,45 +1,45 @@
-
 import MedicalHistory, { IMedicalHistory } from '../models/medical-history.model';
+import { CreateMedicalHistoryDTO, UpdateMedicalHistoryDTO } from '../dto/medical-history.dto';
 
 export class MedicalHistoryService {
 
-    async findAll() {
-        return await MedicalHistory.find({ deleted: false })
+    async findAll(userId: string) {
+        return await MedicalHistory.find({ userId, deleted: false })
             .populate('petId', 'name species')
             .populate('veterinarianId', 'name surname specialty');
     }
 
-    async findById(id: string) {
-        return await MedicalHistory.findOne({ _id: id, deleted: false })
+    async findById(id: string, userId: string) {
+        return await MedicalHistory.findOne({ _id: id, userId, deleted: false })
             .populate('petId', 'name species')
             .populate('veterinarianId', 'name surname specialty');
     }
 
-    async create(data: Partial<IMedicalHistory>) {
-        const medicalHistory = new MedicalHistory(data);
+    async create(data: CreateMedicalHistoryDTO, userId: string) {
+        const medicalHistory = new MedicalHistory({ ...data, userId });
         await medicalHistory.save();
         return medicalHistory;
     }
 
-    async update(id: string, data: Partial<IMedicalHistory>) {
+    async update(id: string, data: UpdateMedicalHistoryDTO, userId: string) {
         return await MedicalHistory.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             data,
             { new: true }
         );
     }
 
-    async deleteMedicalHistory(id: string) {
+    async deleteMedicalHistory(id: string, userId: string) {
         return await MedicalHistory.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             { deleted: true, deletedAt: new Date() },
             { new: true }
         );
     }
 
-    async deleteByPetId(petId: string) {
+    async deleteByPetId(petId: string, userId: string) {
         return await MedicalHistory.updateMany(
-            { petId: petId, deleted: false },
+            { petId: petId, userId, deleted: false },
             { deleted: true, deletedAt: new Date() }
         );
     }

@@ -1,35 +1,36 @@
 import Owner, { IOwner } from '../models/owner.model';
 import Pet from '../models/pet.model';
+import { CreateOwnerDTO, UpdateOwnerDTO } from '../dto/owner.dto';
 
 export class OwnerService {
 
-    async findAll(): Promise<IOwner[]> {
-        return await Owner.find({ deleted: false });
+    async findAll(userId: string): Promise<IOwner[]> {
+        return await Owner.find({ userId, deleted: false });
     }
 
-    async findById(id: string): Promise<IOwner | null> {
-        return await Owner.findOne({ _id: id, deleted: false });
+    async findById(id: string, userId: string): Promise<IOwner | null> {
+        return await Owner.findOne({ _id: id, userId, deleted: false });
     }
 
-    async findByDni(dni: number): Promise<IOwner | null> {
-        return await Owner.findOne({ dni: dni, deleted: false });
+    async findByDni(dni: number, userId: string): Promise<IOwner | null> {
+        return await Owner.findOne({ dni: dni, userId, deleted: false });
     }
 
-    async create(data: Partial<IOwner>): Promise<IOwner> {
-        return await Owner.create(data);
+    async create(data: CreateOwnerDTO, userId: string): Promise<IOwner> {
+        return await Owner.create({ ...data, userId });
     }
 
-    async update(id: string, data: Partial<IOwner>): Promise<IOwner | null> {
+    async update(id: string, data: UpdateOwnerDTO, userId: string): Promise<IOwner | null> {
         return await Owner.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             data,
             { new: true }
         );
     }
 
-    async delete(id: string): Promise<IOwner | null> {
+    async delete(id: string, userId: string): Promise<IOwner | null> {
         const owner = await Owner.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             { deleted: true, deletedAt: new Date() },
             { new: true }
         );

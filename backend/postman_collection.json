@@ -1,0 +1,624 @@
+{
+	"info": {
+		"_postman_id": "tp-final-patitas-felices",
+		"name": "Patitas Felices - API Collection",
+		"description": "Colección de endpoints para el sistema de gestión veterinaria Patitas Felices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Autenticación",
+			"item": [
+				{
+					"name": "Registro",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"usuario@example.com\",\n  \"username\": \"usuario123\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/auth/register",
+							"host": ["{{URL}}"],
+							"path": ["api", "auth", "register"]
+						},
+						"description": "Registra un nuevo usuario en el sistema"
+					}
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set(\"auth_token\", jsonData.token);",
+									"}"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"usuario@example.com\",\n  \"password\": \"password123\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/auth/login",
+							"host": ["{{URL}}"],
+							"path": ["api", "auth", "login"]
+						},
+						"description": "Inicia sesión y obtiene un token JWT"
+					}
+				}
+			]
+		},
+		{
+			"name": "Dueños (Owners)",
+			"item": [
+				{
+					"name": "Listar Dueños",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/owners",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners"]
+						},
+						"description": "Obtiene la lista de todos los dueños"
+					}
+				},
+				{
+					"name": "Obtener Dueño por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/owners/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "owner_id_here"
+								}
+							]
+						},
+						"description": "Obtiene un dueño específico por su ID"
+					}
+				},
+				{
+					"name": "Obtener Dueño por DNI",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/owners/dni/:dni",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners", "dni", ":dni"],
+							"variable": [
+								{
+									"key": "dni",
+									"value": "12345678"
+								}
+							]
+						},
+						"description": "Obtiene un dueño por su DNI"
+					}
+				},
+				{
+					"name": "Crear Dueño",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan\",\n  \"surname\": \"Pérez\",\n  \"dni\": 12345678,\n  \"phone\": \"1234567890\",\n  \"address\": \"Calle Falsa 123\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/owners",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners"]
+						},
+						"description": "Crea un nuevo dueño"
+					}
+				},
+				{
+					"name": "Actualizar Dueño",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Juan Carlos\",\n  \"phone\": \"9876543210\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/owners/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "owner_id_here"
+								}
+							]
+						},
+						"description": "Actualiza un dueño existente"
+					}
+				},
+				{
+					"name": "Eliminar Dueño",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/owners/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "owners", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "owner_id_here"
+								}
+							]
+						},
+						"description": "Elimina un dueño (soft delete)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Mascotas (Pets)",
+			"item": [
+				{
+					"name": "Listar Mascotas",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/pets",
+							"host": ["{{URL}}"],
+							"path": ["api", "pets"]
+						},
+						"description": "Obtiene la lista de todas las mascotas"
+					}
+				},
+				{
+					"name": "Obtener Mascota por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/pets/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "pets", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "pet_id_here"
+								}
+							]
+						},
+						"description": "Obtiene una mascota específica por su ID"
+					}
+				},
+				{
+					"name": "Crear Mascota",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Max\",\n  \"species\": \"Perro\",\n  \"birthdate\": \"2020-01-15\",\n  \"ownerId\": \"owner_id_here\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/pets",
+							"host": ["{{URL}}"],
+							"path": ["api", "pets"]
+						},
+						"description": "Crea una nueva mascota"
+					}
+				},
+				{
+					"name": "Actualizar Mascota",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Maximus\",\n  \"species\": \"Perro\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/pets/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "pets", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "pet_id_here"
+								}
+							]
+						},
+						"description": "Actualiza una mascota existente"
+					}
+				},
+				{
+					"name": "Eliminar Mascota",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/pets/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "pets", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "pet_id_here"
+								}
+							]
+						},
+						"description": "Elimina una mascota (soft delete)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Veterinarios (Veterinarians)",
+			"item": [
+				{
+					"name": "Listar Veterinarios",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/veterinarians",
+							"host": ["{{URL}}"],
+							"path": ["api", "veterinarians"]
+						},
+						"description": "Obtiene la lista de todos los veterinarios"
+					}
+				},
+				{
+					"name": "Obtener Veterinario por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/veterinarians/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "veterinarians", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "vet_id_here"
+								}
+							]
+						},
+						"description": "Obtiene un veterinario específico por su ID"
+					}
+				},
+				{
+					"name": "Crear Veterinario",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"María\",\n  \"surname\": \"González\",\n  \"medicalLicense\": \"VET12345\",\n  \"specialty\": \"Cirugía\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/veterinarians",
+							"host": ["{{URL}}"],
+							"path": ["api", "veterinarians"]
+						},
+						"description": "Crea un nuevo veterinario"
+					}
+				},
+				{
+					"name": "Actualizar Veterinario",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"specialty\": \"Cardiología\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/veterinarians/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "veterinarians", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "vet_id_here"
+								}
+							]
+						},
+						"description": "Actualiza un veterinario existente"
+					}
+				},
+				{
+					"name": "Eliminar Veterinario",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/veterinarians/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "veterinarians", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "vet_id_here"
+								}
+							]
+						},
+						"description": "Elimina un veterinario (soft delete)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Historial Clínico (Medical History)",
+			"item": [
+				{
+					"name": "Listar Historiales Clínicos",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/medical-histories",
+							"host": ["{{URL}}"],
+							"path": ["api", "medical-histories"]
+						},
+						"description": "Obtiene la lista de todos los historiales clínicos"
+					}
+				},
+				{
+					"name": "Obtener Historial Clínico por ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/medical-histories/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "medical-histories", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "history_id_here"
+								}
+							]
+						},
+						"description": "Obtiene un historial clínico específico por su ID"
+					}
+				},
+				{
+					"name": "Crear Historial Clínico",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"petId\": \"pet_id_here\",\n  \"veterinarianId\": \"vet_id_here\",\n  \"description\": \"Consulta de rutina, vacunación anual\",\n  \"registrationDate\": \"2024-01-15\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/medical-histories",
+							"host": ["{{URL}}"],
+							"path": ["api", "medical-histories"]
+						},
+						"description": "Crea un nuevo historial clínico"
+					}
+				},
+				{
+					"name": "Actualizar Historial Clínico",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Consulta de seguimiento, paciente en buen estado\"\n}"
+						},
+						"url": {
+							"raw": "{{URL}}/api/medical-histories/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "medical-histories", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "history_id_here"
+								}
+							]
+						},
+						"description": "Actualiza un historial clínico existente"
+					}
+				},
+				{
+					"name": "Eliminar Historial Clínico",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "{{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/api/medical-histories/:id",
+							"host": ["{{URL}}"],
+							"path": ["api", "medical-histories", ":id"],
+							"variable": [
+								{
+									"key": "id",
+									"value": "history_id_here"
+								}
+							]
+						},
+						"description": "Elimina un historial clínico (soft delete)"
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "auth_token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

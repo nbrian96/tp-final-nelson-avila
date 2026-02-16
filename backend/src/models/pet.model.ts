@@ -3,8 +3,9 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface IPet extends Document {
     name: string;
     species: string;
-    birthdate: Date;
+    birthdate: Date | null;
     ownerId: mongoose.Types.ObjectId;
+    userId: mongoose.Types.ObjectId;
     deleted: boolean;
     deletedAt: Date | null;
 }
@@ -29,6 +30,11 @@ const PetSchema: Schema = new Schema({
     ownerId: {
         type: Schema.Types.ObjectId,
         ref: 'Owner',
+        required: true
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
         required: true
     },
     deleted: {

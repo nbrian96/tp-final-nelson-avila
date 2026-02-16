@@ -11,9 +11,10 @@ import { createVeterinarianValidator, updateVeterinarianValidator } from '../val
 
 const router = Router();
 
-router.get('/', getSpecialists);
+router.use(protect);
 
-router.post('/', protect, createVeterinarianValidator, createVeterinarian);
+router.get('/', getSpecialists);
+router.post('/', createVeterinarianValidator, createVeterinarian);
 router.get('/:id', protect, getVeterinarianById);
 router.put('/:id', protect, updateVeterinarianValidator, updateVeterinarian);
 router.delete('/:id', protect, deleteVeterinarian);

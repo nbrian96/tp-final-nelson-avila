@@ -5,6 +5,7 @@ export interface IVeterinarian extends Document {
     surname: string;
     medicalLicense: string;
     specialty: string;
+    userId: mongoose.Types.ObjectId;
     deleted: boolean;
     deletedAt: Date;
 }
@@ -29,6 +30,11 @@ const VeterinarianSchema: Schema = new Schema({
         type: String,
         required: true,
         trim: true,
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     },
     deleted: {
         type: Boolean,

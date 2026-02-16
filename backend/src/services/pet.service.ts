@@ -1,39 +1,45 @@
 import Pet, { IPet } from '../models/pet.model';
 import { MedicalHistoryService } from './medical-history.service';
+import { CreatePetDTO, UpdatePetDTO } from '../dto/pet.dto';
 
 const medicalHistoryService = new MedicalHistoryService();
 
 export class PetService {
 
-    async findAll(): Promise<IPet[]> {
-        return await Pet.find({ deleted: false }).populate('ownerId', 'name surname');
+    async findAll(userId: string): Promise<IPet[]> {
+        return await Pet.find({ userId, deleted: false }).populate('ownerId', 'name surname');
     }
 
-    async findById(id: string): Promise<IPet | null> {
-        return await Pet.findOne({ _id: id, deleted: false }).populate('ownerId', 'name surname');
+    async findById(id: string, userId: string): Promise<IPet | null> {
+        return await Pet.findOne({ _id: id, userId, deleted: false }).populate('ownerId', 'name surname');
     }
 
-    async create(data: Partial<IPet>): Promise<IPet> {
-        return await Pet.create(data);
+    async create(data: CreatePetDTO, userId: string): Promise<IPet> {
+        const petData = {
+            ...data,
+            userId,
+            birthdate: data.birthdate ? new Date(data.birthdate) : null
+        };
+        return await Pet.create(petData as any);
     }
 
-    async update(id: string, data: Partial<IPet>): Promise<IPet | null> {
+    async update(id: string, data: UpdatePetDTO, userId: string): Promise<IPet | null> {
         return await Pet.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             data,
             { new: true }
         );
     }
 
-    async delete(id: string): Promise<IPet | null> {
+    async delete(id: string, userId: string): Promise<IPet | null> {
         const pet = await Pet.findOneAndUpdate(
-            { _id: id, deleted: false },
+            { _id: id, userId, deleted: false },
             { deleted: true, deletedAt: new Date() },
             { new: true }
         );
 
         if (pet) {
-            await medicalHistoryService.deleteByPetId(id);
+            await medicalHistoryService.deleteByPetId(id, userId);
         }
 
         return pet;

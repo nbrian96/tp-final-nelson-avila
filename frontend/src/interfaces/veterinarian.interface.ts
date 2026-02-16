@@ -1,5 +1,5 @@
 export interface Veterinarian {
-    _id: string;
+    id: string;
     name: string;
     surname: string;
     medicalLicense: string;
